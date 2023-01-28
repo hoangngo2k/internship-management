@@ -23,10 +23,15 @@
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
 
-        <label for="object_id">Object ID</label>
-        <input type="number" th:field="*{object_id}" id="object_id" placeholder="abc123"
-               class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('object_id')}" th:errors="*{object_id}"></span>
+        <label for="reviewer">Reviewer</label>
+        <input type="text" th:field="*{reviewer}" id="reviewer"
+               class="form-control mb-4 col-4" disabled>
+
+        <label for="object">Object</label>
+        <select class="form-control mb-4 col-4" th:field="*{object}" id="object">
+            <option th:value="*{object}" th:text="*{object}"></option>
+            <option th:each="list : ${nameList}" th:value="${list}" th:text="${list}"></option>
+        </select>
 
         <label for="rank">Rank</label>
         <input type="text" th:field="*{rank}" id="rank" placeholder="abc123"
@@ -40,7 +45,7 @@
 
         <label for="is_del_flg">Is delete?</label>
         <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
-               class="form-control mb-4 col-4 is-invalid" required>
+               class="form-control mb-4 col-4 is-invalid">
         <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
 
         <button type="submit" class="btn btn-info col-2">Save</button>

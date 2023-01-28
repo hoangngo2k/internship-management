@@ -10,18 +10,7 @@
 </head>
 <body>
 <div class="container my-2" style="text-align: -webkit-center">
-    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
-        <div class="col-9 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
-        </div>
-        <div class="col-2 mt-3">
-            <form th:action="@{/logout}" method="post">
-                <button class="form-control btn btn-secondary" type="submit">Log out</button>
-            </form>
-        </div>
-    </div>
-    <br/>
-    <h3>Review List</h3>
+    <h3>Review List</h3><hr/>
     <div class="d-flex">
         <div class="p-2"><a th:href="@{/reviews/save-form}" class="btn btn-primary btn-sm mb-3">Add Review</a></div>
         <div class="input-group d-flex justify-content-end">
@@ -50,12 +39,12 @@
                 <!--                   style="text-decoration: none; color: black">Username</a>-->
             </th>
             <th>
-                Reviewer ID
+                Reviewer
                 <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"-->
                 <!--                   style="text-decoration: none; color: black">Email</a>-->
             </th>
             <th>
-                Object ID
+                Object
                 <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"-->
                 <!--                   style="text-decoration: none; color: black">Birthday</a>-->
             </th>
@@ -72,8 +61,8 @@
         <tr th:each="review:${reviewList}">
             <td th:text="${review.id}"></td>
             <td th:text="${review.type}"></td>
-            <td th:text="${review.reviewer_id}"></td>
-            <td th:text="${review.object_id}"></td>
+            <td th:text="${review.reviewer}"></td>
+            <td th:text="${review.object}"></td>
             <td th:text="${review.rank}"></td>
             <td th:text="${review.content}"></td>
             <td th:text="${review.create_id}"></td>

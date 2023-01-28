@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="row bg-secondary" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
             <a th:href="@{/home}" style="text-decoration: none">HOME</a>
         </div>
@@ -57,7 +57,7 @@
 
         <label for="is_del_flg">Is delete?</label>
         <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
-               class="form-control mb-4 col-4 is-invalid" required>
+               class="form-control mb-4 col-4 is-invalid">
         <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
 
         <label for="birthday">Birthday</label>
@@ -80,20 +80,23 @@
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></span>
 
-        <label for="position_id">Position ID</label>
-        <input type="number" th:field="*{position_id}" id="position_id"
-               class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('position_id')}" th:errors="*{position_id}"></span>
+        <label for="position">Position</label>
+        <select class="form-control mb-4 col-4" th:field="*{position}" id="position">
+            <option th:value="${internship.position}" th:text="${internship.position.name}"></option>
+            <option th:each="position : ${positions}" th:value="${position}" th:text="${position.name}"></option>
+        </select>
 
-        <label for="university_id">University ID</label>
-        <input type="number" th:field="*{university_id}" id="university_id"
-               class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('university_id')}" th:errors="*{university_id}"></span>
+        <label for="university">University</label>
+        <select class="form-control mb-4 col-4" th:field="*{university}" id="university">
+            <option th:value="${internship.university}" th:text="${internship.university.name}"></option>
+            <option th:each="university : ${universities}" th:value="${university}" th:text="${university.name}"></option>
+        </select>
 
-        <label for="company_card_id">Company Card ID</label>
-        <input type="number" th:field="*{company_card_id}" id="company_card_id"
-               class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('company_card_id')}" th:errors="*{company_card_id}"></span>
+        <label for="company_card">Company Card</label>
+        <select class="form-control mb-4 col-4" th:field="*{company_card}" id="company_card">
+            <option th:value="${internship.company_card}" th:text="${internship.company_card.id}"></option>
+            <option th:each="companyCard : ${companyCards}" th:value="${companyCard}" th:text="${companyCard.id}"></option>
+        </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>

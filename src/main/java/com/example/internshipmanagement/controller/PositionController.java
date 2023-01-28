@@ -87,7 +87,7 @@ public class PositionController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             positionDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/home/positions/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();

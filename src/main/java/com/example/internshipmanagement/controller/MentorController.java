@@ -103,11 +103,13 @@ public class MentorController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             mentorDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/home/mentors/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
+        String password = passwordEncoder.encode(mentorDto.getPassword());
+        mentorDto.setPassword(password);
         mentorDto.setModified_id(Math.toIntExact(userDto.getId()));
         mentorService.update(id, mentorDto);
         return new RedirectView("/home/mentors/");

@@ -12,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PositionService {
 
@@ -33,6 +36,12 @@ public class PositionService {
         Sort sortable = Sort.by("id").ascending();
         pageable = PageRequest.of(page, size, sortable);
         return repository.findAll(where, pageable);
+    }
+
+    public List<PositionDto> getAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public PositionDto getPositionById(Long id) {

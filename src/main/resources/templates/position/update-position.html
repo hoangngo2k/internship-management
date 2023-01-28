@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <div class="row bg-secondary" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
             <a th:href="@{/home}" style="text-decoration: none">HOME</a>
         </div>
@@ -31,13 +31,13 @@
         <input type="text" th:field="*{id}" id="id" class="form-control mb-4 col-4" disabled>
 
         <label for="name">Name</label>
-        <input type="email" th:field="*{name}" id="name"
+        <input type="text" th:field="*{name}" id="name"
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
         <label for="is_del_flg">Is delete?</label>
         <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
-               class="form-control mb-4 col-4 is-invalid" required>
+               class="form-control mb-4 col-4 is-invalid">
         <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
 
         <button type="submit" class="btn btn-info col-2">Save</button>

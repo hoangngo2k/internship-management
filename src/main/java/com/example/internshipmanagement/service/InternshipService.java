@@ -12,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class InternshipService {
 
@@ -36,6 +39,12 @@ public class InternshipService {
         return internshipRepository.findAll(where, pageable);
     }
 
+    public List<InternshipDto> getAllInternship() {
+        return internshipRepository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public InternshipDto getInternshipById(Long id) {
         Internship internship = internshipRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Internship is not found"));
@@ -54,5 +63,9 @@ public class InternshipService {
 
     public void delete(Long id) {
         internshipRepository.deleteById(id);
+    }
+
+    public boolean existedByUsername(String username) {
+        return internshipRepository.existsByUsername(username);
     }
 }

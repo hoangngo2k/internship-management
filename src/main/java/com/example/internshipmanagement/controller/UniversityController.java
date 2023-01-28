@@ -87,7 +87,7 @@ public class UniversityController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             universityDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/home/universities/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();

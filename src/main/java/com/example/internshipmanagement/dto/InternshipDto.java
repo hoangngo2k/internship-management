@@ -1,5 +1,8 @@
 package com.example.internshipmanagement.dto;
 
+import com.example.internshipmanagement.model.CompanyCard;
+import com.example.internshipmanagement.model.Position;
+import com.example.internshipmanagement.model.University;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,9 +16,9 @@ public class InternshipDto extends UserDto {
     private String identify_card;
     private int status;
     private int level;
-    private Long position_id;
-    private Long university_id;
-    private Long company_card_id;
+    private PositionDto position;
+    private UniversityDto university;
+    private CompanyCardDto company_card;
 
     public LocalDate getBirthday() {
         return birthday;
@@ -49,27 +52,27 @@ public class InternshipDto extends UserDto {
         this.level = level;
     }
 
-    public Long getPosition_id() {
-        return position_id;
+    public PositionDto getPosition() {
+        return position;
     }
 
-    public void setPosition_id(Long position_id) {
-        this.position_id = position_id;
+    public void setPosition(PositionDto position) {
+        this.position = position;
     }
 
-    public Long getUniversity_id() {
-        return university_id;
+    public UniversityDto getUniversity() {
+        return university;
     }
 
-    public void setUniversity_id(Long university_id) {
-        this.university_id = university_id;
+    public void setUniversity(UniversityDto university) {
+        this.university = university;
     }
 
-    public Long getCompany_card_id() {
-        return company_card_id;
+    public CompanyCardDto getCompany_card() {
+        return company_card;
     }
 
-    public void setCompany_card_id(Long company_card_id) {
-        this.company_card_id = company_card_id;
+    public void setCompany_card(CompanyCardDto company_card) {
+        this.company_card = company_card;
     }
 }

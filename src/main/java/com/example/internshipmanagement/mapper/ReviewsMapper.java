@@ -8,8 +8,8 @@ public class ReviewsMapper {
     public Reviews toEntity(ReviewsDto dto) {
         Reviews entity = new Reviews();
         entity.setType(dto.getType());
-        entity.setReviewer_id(dto.getReviewer_id());
-        entity.setObject_id(dto.getObject_id());
+        entity.setReviewer(dto.getReviewer());
+        entity.setObject(dto.getObject());
         entity.setRank(dto.getRank());
         entity.setContent(dto.getContent());
         entity.setIs_del_flg(dto.isIs_del_flg());
@@ -22,8 +22,8 @@ public class ReviewsMapper {
 
     public Reviews toEntity(Reviews entity, ReviewsDto dto) {
         entity.setType(dto.getType());
-        entity.setReviewer_id(dto.getReviewer_id());
-        entity.setObject_id(dto.getObject_id());
+        entity.setReviewer(dto.getReviewer());
+        entity.setObject(dto.getObject());
         entity.setRank(dto.getRank());
         entity.setContent(dto.getContent());
         entity.setIs_del_flg(dto.isIs_del_flg());
@@ -36,8 +36,8 @@ public class ReviewsMapper {
         ReviewsDto dto = new ReviewsDto();
         dto.setId(entity.getId());
         dto.setType(entity.getType());
-        dto.setReviewer_id(entity.getReviewer_id());
-        dto.setObject_id(entity.getObject_id());
+        dto.setReviewer(entity.getReviewer());
+        dto.setObject(entity.getObject());
         dto.setRank(entity.getRank());
         dto.setContent(entity.getContent());
         dto.setIs_del_flg(entity.isIs_del_flg());

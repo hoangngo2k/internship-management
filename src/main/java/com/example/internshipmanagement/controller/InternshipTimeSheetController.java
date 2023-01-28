@@ -87,7 +87,7 @@ public class InternshipTimeSheetController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             timeSheetDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/home/time-sheets/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();

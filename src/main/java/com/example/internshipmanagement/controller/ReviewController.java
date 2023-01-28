@@ -4,6 +4,8 @@ import com.example.internshipmanagement.dto.ReviewsDto;
 import com.example.internshipmanagement.dto.SearchForm;
 import com.example.internshipmanagement.dto.UserDto;
 import com.example.internshipmanagement.model.Reviews;
+import com.example.internshipmanagement.service.InternshipService;
+import com.example.internshipmanagement.service.MentorService;
 import com.example.internshipmanagement.service.ReviewService;
 import com.example.internshipmanagement.service.UserService;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -28,14 +31,18 @@ public class ReviewController {
 
     private final ReviewService service;
     private final UserService userService;
+    private final MentorService mentorService;
+    private final InternshipService internshipService;
 
-    public ReviewController(ReviewService service, UserService userService) {
+    public ReviewController(ReviewService service, UserService userService, MentorService mentorService, InternshipService internshipService) {
         this.service = service;
         this.userService = userService;
+        this.mentorService = mentorService;
+        this.internshipService = internshipService;
     }
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
@@ -43,7 +50,7 @@ public class ReviewController {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
         Pageable pageable = null;
-        Page<Reviews> reviewsPage = service.getAll(pageable, "object_id", searchForm.getKeyword(), page, size);
+        Page<Reviews> reviewsPage = service.getAll(pageable, "object", searchForm.getKeyword(), page, size);
         int totalPages = reviewsPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -55,19 +62,33 @@ public class ReviewController {
     }
 
     @GetMapping("/save-form")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public ModelAndView saveMentorForm(Model model, ReviewsDto reviewsDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+        reviewsDto.setReviewer(userDto.getUsername());
         model.addAttribute("review", reviewsDto);
+        List<String> nameList;
+        if (!mentorService.existedByUsername(userDto.getUsername()))
+            nameList = mentorService.getAllMentor()
+                    .stream().map(UserDto::getUsername)
+                    .collect(Collectors.toList());
+        else {
+            nameList = internshipService.getAllInternship()
+                    .stream().map(UserDto::getUsername)
+                    .collect(Collectors.toList());
+        }
+        model.addAttribute("nameList", nameList);
         return new ModelAndView("review/new-review");
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public RedirectView saveMentor(@ModelAttribute("review") ReviewsDto reviewsDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        reviewsDto.setReviewer_id(userDto.getId());
+        reviewsDto.setReviewer(userDto.getUsername());
         reviewsDto.setCreate_id(Math.toIntExact(userDto.getId()));
         reviewsDto.setModified_id(Math.toIntExact(userDto.getId()));
         service.save(reviewsDto);
@@ -75,20 +96,33 @@ public class ReviewController {
     }
 
     @GetMapping("/update-form/{id}")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public ModelAndView updateMentorFrom(Model model, @PathVariable Long id) {
         ReviewsDto reviewsDto = service.getReviewById(id);
         model.addAttribute("review", reviewsDto);
+        List<String> nameList;
+        if (!mentorService.existedByUsername(reviewsDto.getReviewer()))
+            nameList = mentorService.getAllMentor().stream()
+                    .map(UserDto::getUsername)
+                    .filter(s -> !s.equals(reviewsDto.getObject()))
+                    .collect(Collectors.toList());
+        else {
+            nameList = internshipService.getAllInternship()
+                    .stream().map(UserDto::getUsername)
+                    .filter(s -> !s.equals(reviewsDto.getObject()))
+                    .collect(Collectors.toList());
+        }
+        model.addAttribute("nameList", nameList);
         return new ModelAndView("review/update-review");
     }
 
     @PostMapping("/{id}")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public RedirectView updateMentor(@PathVariable Long id, @Valid ReviewsDto reviewsDto,
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             reviewsDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/reviews/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
@@ -99,7 +133,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('MENTOR')")
+    @PreAuthorize("hasRole('MENTOR') or hasRole('INTERNSHIP')")
     public RedirectView deleteMentor(@PathVariable Long id) {
         service.delete(id);
         return new RedirectView("/reviews/");

@@ -4,6 +4,7 @@ public class SearchForm {
 
     private String field;
     private String keyword;
+    private boolean using_flg;
 
     public String getField() {
         return field;
@@ -19,5 +20,13 @@ public class SearchForm {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public boolean isUsing_flg() {
+        return using_flg;
+    }
+
+    public void setUsing_flg(boolean using_flg) {
+        this.using_flg = using_flg;
     }
 }

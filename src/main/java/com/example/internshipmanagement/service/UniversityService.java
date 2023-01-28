@@ -1,5 +1,6 @@
 package com.example.internshipmanagement.service;
 
+import com.example.internshipmanagement.dto.PositionDto;
 import com.example.internshipmanagement.dto.UniversityDto;
 import com.example.internshipmanagement.mapper.UniversityMapper;
 import com.example.internshipmanagement.model.University;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UniversityService {
@@ -53,5 +57,11 @@ public class UniversityService {
 
     public void delete(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<UniversityDto> getAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 }

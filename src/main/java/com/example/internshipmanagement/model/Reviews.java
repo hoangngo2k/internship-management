@@ -18,8 +18,8 @@ public class Reviews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int type;
-    private Long reviewer_id;
-    private Long object_id;
+    private String reviewer;
+    private String object;
     private String rank;
     private String content;
     private boolean is_del_flg;
@@ -48,20 +48,20 @@ public class Reviews {
         this.type = type;
     }
 
-    public Long getReviewer_id() {
-        return reviewer_id;
+    public String getReviewer() {
+        return reviewer;
     }
 
-    public void setReviewer_id(Long reviewer_id) {
-        this.reviewer_id = reviewer_id;
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
     }
 
-    public Long getObject_id() {
-        return object_id;
+    public String getObject() {
+        return object;
     }
 
-    public void setObject_id(Long object_id) {
-        this.object_id = object_id;
+    public void setObject(String object) {
+        this.object = object;
     }
 
     public String getRank() {

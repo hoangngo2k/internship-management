@@ -1,5 +1,6 @@
 package com.example.internshipmanagement.service;
 
+import com.example.internshipmanagement.dto.InternshipDto;
 import com.example.internshipmanagement.dto.MentorDto;
 import com.example.internshipmanagement.mapper.MentorMapper;
 import com.example.internshipmanagement.model.Mentor;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MentorService {
@@ -42,6 +46,12 @@ public class MentorService {
         return mentorRepository.findAll(where, pageable);
     }
 
+    public List<MentorDto> getAllMentor() {
+        return mentorRepository.findAll()
+                .stream().map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public void save(MentorDto dto) {
         mentorRepository.save(mapper.toEntity(dto));
     }
@@ -54,5 +64,9 @@ public class MentorService {
 
     public void delete(Long id) {
         mentorRepository.deleteById(id);
+    }
+
+    public boolean existedByUsername(String username) {
+        return mentorRepository.existsByUsername(username);
     }
 }

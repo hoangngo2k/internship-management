@@ -12,6 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CompanyCardService {
     private final CompanyCardRepository repository;
@@ -23,7 +26,7 @@ public class CompanyCardService {
     }
 
     public Specification<CompanyCard> search(String field, String key) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + key + "%");
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(field), key);
     }
 
     public Page<CompanyCard> getAll(Pageable pageable, String field, String key, int page, int size) {
@@ -32,6 +35,12 @@ public class CompanyCardService {
         Sort sortable = Sort.by("id").ascending();
         pageable = PageRequest.of(page, size, sortable);
         return repository.findAll(where, pageable);
+    }
+
+    public List<CompanyCardDto> getAll() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
     }
 
     public CompanyCardDto getCompanyCardById(String id) {

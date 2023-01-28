@@ -87,7 +87,7 @@ public class CompanyCardController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             companyCardDto.setId(id);
-            return new RedirectView("/update-form/" + id);
+            return new RedirectView("/home/company-cards/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
