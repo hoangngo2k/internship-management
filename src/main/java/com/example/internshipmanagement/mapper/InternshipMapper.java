@@ -32,9 +32,9 @@ public class InternshipMapper {
         entity.setIdentify_card(dto.getIdentify_card());
         entity.setStatus(dto.getStatus());
         entity.setLevel(dto.getLevel());
-        entity.setCompanyCard(companyCardMapper.toEntity(dto.getCompany_card()));
-        entity.setPosition(positionMapper.toEntity(dto.getPosition()));
-        entity.setUniversity(universityMapper.toEntity(dto.getUniversity()));
+        entity.setCompanyCard(dto.getCompany_card());
+        entity.setPosition(dto.getPosition());
+        entity.setUniversity(dto.getUniversity());
         return entity;
     }
 
@@ -52,9 +52,9 @@ public class InternshipMapper {
         entity.setIdentify_card(dto.getIdentify_card());
         entity.setStatus(dto.getStatus());
         entity.setLevel(dto.getLevel());
-        entity.setCompanyCard(companyCardMapper.toEntity(dto.getCompany_card()));
-        entity.setPosition(positionMapper.toEntity(dto.getPosition()));
-        entity.setUniversity(universityMapper.toEntity(dto.getUniversity()));
+        entity.setCompanyCard(dto.getCompany_card());
+        entity.setPosition(dto.getPosition());
+        entity.setUniversity(dto.getUniversity());
         return entity;
     }
 
@@ -76,9 +76,9 @@ public class InternshipMapper {
         dto.setIdentify_card(entity.getIdentify_card());
         dto.setStatus(entity.getStatus());
         dto.setLevel(entity.getLevel());
-        dto.setCompany_card(companyCardMapper.toDto(entity.getCompanyCard()));
-        dto.setPosition(positionMapper.toDto(entity.getPosition()));
-        dto.setUniversity(universityMapper.toDto(entity.getUniversity()));
+        dto.setCompany_card(entity.getCompanyCard());
+        dto.setPosition(entity.getPosition());
+        dto.setUniversity(entity.getUniversity());
         return dto;
     }
 }

@@ -82,20 +82,20 @@
 
         <label for="position">Position</label>
         <select class="form-control mb-4 col-4" th:field="*{position}" id="position">
-            <option th:value="${internship.position}" th:text="${internship.position.name}"></option>
-            <option th:each="position : ${positions}" th:value="${position}" th:text="${position.name}"></option>
+            <option th:value="${internship.position.id}" th:text="${internship.position.name}"></option>
+            <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.name}"></option>
         </select>
 
         <label for="university">University</label>
         <select class="form-control mb-4 col-4" th:field="*{university}" id="university">
-            <option th:value="${internship.university}" th:text="${internship.university.name}"></option>
-            <option th:each="university : ${universities}" th:value="${university}" th:text="${university.name}"></option>
+            <option th:value="${internship.university.id}" th:text="${internship.university.name}"></option>
+            <option th:each="university : ${universities}" th:value="${university.id}" th:text="${university.name}"></option>
         </select>
 
         <label for="company_card">Company Card</label>
         <select class="form-control mb-4 col-4" th:field="*{company_card}" id="company_card">
-            <option th:value="${internship.company_card}" th:text="${internship.company_card.id}"></option>
-            <option th:each="companyCard : ${companyCards}" th:value="${companyCard}" th:text="${companyCard.id}"></option>
+            <option th:value="${internship.company_card.id}" th:text="${internship.company_card.id}"></option>
+            <option th:each="companyCard : ${companyCards}" th:value="${companyCard.id}" th:text="${companyCard.id}"></option>
         </select>
 
         <button type="submit" class="btn btn-info col-2">Save</button>

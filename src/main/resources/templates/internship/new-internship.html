@@ -79,17 +79,17 @@
 
         <label for="position">Position</label>
         <select class="form-control mb-4 col-4" th:field="*{position}" id="position">
-            <option th:each="position : ${positions}" th:value="${position}" th:text="${position.name}"></option>
+            <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.name}"></option>
         </select>
 
         <label for="university">University</label>
         <select class="form-control mb-4 col-4" th:field="*{university}" id="university">
-            <option th:each="university : ${universities}" th:value="${university}" th:text="${university.name}"></option>
+            <option th:each="university : ${universities}" th:value="${university.id}" th:text="${university.name}"></option>
         </select>
 
         <label for="company_card">Company Card</label>
         <select class="form-control mb-4 col-4" th:field="*{company_card}" id="company_card">
-            <option th:each="companyCard : ${companyCards}" th:value="${companyCard}" th:text="${companyCard.id}"></option>
+            <option th:each="companyCard : ${companyCards}" th:value="${companyCard.id}" th:text="${companyCard.id}"></option>
         </select>
 
         <input type="submit" value="Save" class="btn btn-info col-2">

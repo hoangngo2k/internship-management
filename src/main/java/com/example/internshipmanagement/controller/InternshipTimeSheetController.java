@@ -35,7 +35,7 @@ public class InternshipTimeSheetController {
     }
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INTERNSHIP')")
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
@@ -55,14 +55,14 @@ public class InternshipTimeSheetController {
     }
 
     @GetMapping("/save-form")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INTERNSHIP')")
     public ModelAndView saveMentorForm(Model model, InternshipTimeSheetDto timeSheetDto) {
         model.addAttribute("timesheet", timeSheetDto);
         return new ModelAndView("time-sheet/new-time-sheet");
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('INTERNSHIP')")
     public RedirectView saveMentor(@ModelAttribute("timesheet") InternshipTimeSheetDto timeSheetDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();

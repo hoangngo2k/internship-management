@@ -98,8 +98,6 @@ public class InternshipController {
         internshipDto.setCreate_id(Math.toIntExact(userDto.getId()));
         internshipDto.setModified_id(Math.toIntExact(userDto.getId()));
 
-
-
         internshipService.save(internshipDto);
         return new RedirectView("/home/internships/");
     }

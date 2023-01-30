@@ -25,11 +25,12 @@ public class User {
     @Column(unique = true)
     @Size(min = 4)
     private String username;
+    @Size(min = 6)
     private String password;
     @Email
     @Column(unique = true)
     private String email;
-    @Size(min = 1)
+    @Size(min = 3)
     private String full_name;
     @Column(length = 10)
     private String phone_number;

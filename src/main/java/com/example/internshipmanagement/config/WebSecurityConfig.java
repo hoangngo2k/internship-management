@@ -47,6 +47,7 @@ public class WebSecurityConfig {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/home/**").hasRole("ADMIN")
                 .antMatchers("/reviews/**").hasAnyRole("MENTOR", "INTERNSHIP")
+                .antMatchers("/home/time-sheets/", "/home/time-sheets/save-form").hasRole("INTERNSHIP")
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()

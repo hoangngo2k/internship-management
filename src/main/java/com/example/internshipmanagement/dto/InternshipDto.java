@@ -16,9 +16,9 @@ public class InternshipDto extends UserDto {
     private String identify_card;
     private int status;
     private int level;
-    private PositionDto position;
-    private UniversityDto university;
-    private CompanyCardDto company_card;
+    private Position position;
+    private University university;
+    private CompanyCard company_card;
 
     public LocalDate getBirthday() {
         return birthday;
@@ -52,27 +52,27 @@ public class InternshipDto extends UserDto {
         this.level = level;
     }
 
-    public PositionDto getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(PositionDto position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
-    public UniversityDto getUniversity() {
+    public University getUniversity() {
         return university;
     }
 
-    public void setUniversity(UniversityDto university) {
+    public void setUniversity(University university) {
         this.university = university;
     }
 
-    public CompanyCardDto getCompany_card() {
+    public CompanyCard getCompany_card() {
         return company_card;
     }
 
-    public void setCompany_card(CompanyCardDto company_card) {
+    public void setCompany_card(CompanyCard company_card) {
         this.company_card = company_card;
     }
 }
