@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+<div class="container">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+        <div class="col-9 mt-4">
+            <h4>Welcome <strong><span th:remove="tag" sec:authentication="name"></span></strong>
+                goes to Internship Management!</h4>
+        </div>
+        <div class="col-2 mt-3">
+            <form th:action="@{/logout}" method="post">
+                <button class="form-control btn btn-secondary" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+<!--    <div th:replace="navbar/header :: header"></div>-->
+    <div class="row mt-3" style="display: flex; justify-content: space-between">
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/admins/}"
+                   style="color: white; text-decoration: none">Admin Management</a>
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/mentors/}"
+                   style="color: white; text-decoration: none">Mentor Management</a>
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/internships/}"
+                   style="color: white; text-decoration: none">Internship Management</a>
+            </button>
+        </div>
+    </div>
+    <div class="row mt-3" style="display: flex; justify-content: space-between">
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/company-cards/}"
+                   style="color: white; text-decoration: none">Company Card Management</a>
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/time-sheets/}"
+                   style="color: white; text-decoration: none">Internship Timesheet Management</a>
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/positions/}"
+                   style="color: white; text-decoration: none">Position Management</a>
+            </button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-4">
+            <button type="button" class="btn btn-info">
+                <a th:href="@{/home-admin/universities/}"
+                   style="color: white; text-decoration: none">University Management</a>
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

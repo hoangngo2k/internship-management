@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Internship Management System</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+        <div class="col-1 mt-4">
+            <a th:href="@{/home-internship}" sec:authorize="hasRole('ROLE_INTERNSHIP')" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" sec:authorize="hasRole('ROLE_ADMIN')" style="text-decoration: none">HOME</a>
+        </div>
+        <div class="col-2 mt-3">
+            <form th:action="@{/logout}" method="post">
+                <button class="form-control btn btn-secondary" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+
+    <h2>Save Timesheet</h2>
+    <hr>
+
+    <form action="#" th:action="@{/home-internship/time-sheets/}" th:object="${timesheet}"
+          method="POST" class="was-validated">
+
+        <label for="workingDay">Working day</label>
+        <input type="date" th:field="*{workingDay}" id="workingDay"
+        class="form-control mb-4 col-4 is-invalid" required>
+        <span th:if="${#fields.hasErrors('workingDay')}" th:errors="*{workingDay}"></span>
+
+        <label for="time">Time</label>
+        <input type="text" th:field="*{time}" id="time"
+        class="form-control mb-4 col-4 is-invalid" required>
+        <span th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></span>
+
+        <label for="delFlg">Is delete?</label>
+        <input type="checkbox" th:field="*{delFlg}" id="delFlg"
+               class="form-control mb-4 col-4 is-invalid">
+        <span th:if="${#fields.hasErrors('delFlg')}" th:errors="*{delFlg}"></span>
+
+        <label for="internship_id" sec:authorize="hasRole('ROLE_ADMIN')">Internship</label>
+        <select class="form-control mb-4 col-4" sec:authorize="hasRole('ROLE_ADMIN')" th:field="*{internship}" id="internship_id">
+            <option th:each="internship : ${internships}" th:value="${internship.id}" th:text="${internship.username}"></option>
+        </select>
+        <select class="form-control mb-4 col-4" sec:authorize="hasRole('ROLE_INTERNSHIP')" th:field="*{internship}" id="internship_id1" hidden="hidden">
+            <option th:value="${internshipRole.id}" th:text="${internshipRole.username}"></option>
+        </select>
+        <input type="submit" value="Save" class="btn btn-info col-2">
+    </form>
+    <hr>
+    <a th:href="@{/home-internship/time-sheets/}" class="m-2">Back</a>
+</div>
+</body>
+</html>

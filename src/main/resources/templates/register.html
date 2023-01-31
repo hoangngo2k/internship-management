@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"-->
+    <!--            integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"-->
+    <!--            crossorigin="anonymous"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"-->
+    <!--            integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"-->
+    <!--            crossorigin="anonymous"></script>-->
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <title>Register</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h3 align="justify">Registration using Thymeleaf + Spring Data JPA + Spring Boot</h3>
+    <div class="card" style="width: 55rem; ">
+        <div class="card-header text-center bg-info ">
+            <h3>Register</h3>
+        </div>
+        <form th:action="@{/signup}" method="post" th:object="${signup}">
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" id="Email" aria-describedby="Email"
+                       th:field="*{email}">
+            </div>
+            <div class="form-group">
+                <label for="Username">Username</label>
+                <input type="text" class="form-control" id="Username" aria-describedby="username"
+                       th:field="*{username}">
+            </div>
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" id="Password" aria-describedby="Password"
+                       th:field="*{password}">
+            </div>
+            <div class="form-group">
+                <label for="FullName">Full name</label>
+                <input type="text" class="form-control" id="FullName" th:field="*{full_name}">
+            </div>
+            <div class="form-group">
+                <label for="PhoneNumber">Phone Number</label>
+                <input type="text" class="form-control" id="PhoneNumber" th:field="*{phone_number}">
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="exampleFormControlSelect1">Course</label>-->
+<!--                <select class="form-control" id="exampleFormControlSelect1" th:field="*{course}">-->
+<!--                    <option th:each="course : ${courses}" th:value="${course}" th:text="${course}"/>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--                <label for="example">Date of Birth</label>-->
+<!--                <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker">-->
+<!--                    <input placeholder="Select date" type="text" id="example" class="form-control"-->
+<!--                           th:field="*{dob}">-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="form-group">
+                <label >Role</label>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Admin"
+                           value="admin" th:field="*{role}">
+                    <label class="form-check-label" for="Admin">Admin</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Mentor"
+                           value="mentor" th:field="*{role}">
+                    <label class="form-check-label" for="Mentor">Mentor</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="Internship"
+                           value="internship" th:field="*{role}">
+                    <label class="form-check-label" for="Internship">Internship</label>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

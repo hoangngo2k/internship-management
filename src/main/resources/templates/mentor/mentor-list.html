@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Internship Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" style="text-align: -webkit-center">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+        <div class="col-1 mt-4">
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
+        </div>
+        <div class="col-2 mt-3">
+            <form th:action="@{/logout}" method="post">
+                <button class="form-control btn btn-secondary" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <h3>Mentor List</h3>
+    <div class="d-flex">
+        <div class="p-2"><a th:href="@{/home-admin/mentors/save-form}" class="btn btn-primary btn-sm mb-3">Add Mentor</a></div>
+        <div class="input-group d-flex justify-content-end">
+            <form th:action="@{/home-admin/mentors/}" th:object="${searchForm}" method="get" class="d-inline-flex">
+                <div class="form-outline">
+                    <input type="search" id="form1" class="form-control" placeholder="Username..."
+                           th:field="*{keyword}"/>
+                </div>
+                <button id="btnSearch" type="submit" class="btn btn-primary ml-1" style="height: 60%">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped table-responsive">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
+            </th>
+            <th>
+
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Username</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Email</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'fullName'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Full Name</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'phoneNumber'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Phone Number</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'maxInternship'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Max Internship</a>
+            </th>
+            <th>Is active?</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mentor:${mentorList}">
+            <td th:text="${mentor.id}"></td>
+            <td th:text="${mentor.username}"></td>
+            <td th:text="${mentor.email}"></td>
+            <td th:text="${mentor.fullName}"></td>
+            <td th:text="${mentor.phoneNumber}"></td>
+            <td th:text="${mentor.createId}"></td>
+            <td th:text="${mentor.createAt}"></td>
+            <td th:text="${mentor.modifiedId}"></td>
+            <td th:text="${mentor.modifiedAt}"></td>
+            <td th:text="${mentor.maxInternship}"></td>
+            <td th:text="${mentor.activeFlg}"></td>
+            <td>
+                <a th:href="@{/home-admin/mentors/update-form/{id}(id=${mentor.id})}"
+                   class="btn btn-primary">Update</a>
+                <a th:href="@{/home-admin/mentors/{id}(id=${mentor.id})}"
+                   class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--/*@thymesVar id="totalPages" type=""*/-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-sm">
+            <li th:if="${mentorList.getTotalPages() > 0}" class="page-link"
+                th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/home-admin/mentors/(size=${mentorList.size}, page=${pageNumber} - 1)}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==mentorList.number + 1} ? active"
+                   class="page-link"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
