@@ -13,12 +13,12 @@ public class InternshipDto extends UserDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
-    private String identify_card;
+    private String identifyCard;
     private int status;
     private int level;
     private Position position;
     private University university;
-    private CompanyCard company_card;
+    private CompanyCard companyCard;
 
     public LocalDate getBirthday() {
         return birthday;
@@ -26,14 +26,6 @@ public class InternshipDto extends UserDto {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
-    }
-
-    public String getIdentify_card() {
-        return identify_card;
-    }
-
-    public void setIdentify_card(String identify_card) {
-        this.identify_card = identify_card;
     }
 
     public int getStatus() {
@@ -68,11 +60,19 @@ public class InternshipDto extends UserDto {
         this.university = university;
     }
 
-    public CompanyCard getCompany_card() {
-        return company_card;
+    public String getIdentifyCard() {
+        return identifyCard;
     }
 
-    public void setCompany_card(CompanyCard company_card) {
-        this.company_card = company_card;
+    public void setIdentifyCard(String identifyCard) {
+        this.identifyCard = identifyCard;
+    }
+
+    public CompanyCard getCompanyCard() {
+        return companyCard;
+    }
+
+    public void setCompanyCard(CompanyCard companyCard) {
+        this.companyCard = companyCard;
     }
 }

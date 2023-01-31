@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/internships")
+@RequestMapping("/home-admin/internships")
 public class InternshipController {
     private final InternshipService internshipService;
     private final RoleService roleService;
@@ -51,11 +51,15 @@ public class InternshipController {
     public ModelAndView getInternshipList(Model model,
                                           @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                           @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                          @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                          @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                           @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<Internship> internshipPage = internshipService.getAll(pageable, "username", searchForm.getKeyword(), page, size);
+        Page<Internship> internshipPage = internshipService.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = internshipPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -95,11 +99,11 @@ public class InternshipController {
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
 
-        internshipDto.setCreate_id(Math.toIntExact(userDto.getId()));
-        internshipDto.setModified_id(Math.toIntExact(userDto.getId()));
+        internshipDto.setCreateId(Math.toIntExact(userDto.getId()));
+        internshipDto.setModifiedId(Math.toIntExact(userDto.getId()));
 
         internshipService.save(internshipDto);
-        return new RedirectView("/home/internships/");
+        return new RedirectView("/home-admin/internships/");
     }
 
     @GetMapping("/update-form/{id}")
@@ -109,7 +113,7 @@ public class InternshipController {
         model.addAttribute("internship", internshipDto);
 
         List<CompanyCardDto> companyCards = companyCardService.getAll().stream()
-                .filter(companyCardDto -> !Objects.equals(companyCardDto.getId(), internshipDto.getCompany_card().getId()))
+                .filter(companyCardDto -> !Objects.equals(companyCardDto.getId(), internshipDto.getCompanyCard().getId()))
                 .collect(Collectors.toList());
         model.addAttribute("companyCards", companyCards);
 
@@ -131,22 +135,31 @@ public class InternshipController {
                                          BindingResult result, Model model) {
         if (result.hasErrors()) {
             internshipDto.setId(id);
-            return new RedirectView("/home/internships/update-form/" + id);
+            return new RedirectView("/home-admin/internships/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
+
         String password = passwordEncoder.encode(internshipDto.getPassword());
         internshipDto.setPassword(password);
-        internshipDto.setModified_id(Math.toIntExact(userDto.getId()));
+
+        internshipDto.setModifiedId(Math.toIntExact(userDto.getId()));
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleService.getRoleByName(ERole.ROLE_INTERNSHIP)
+                .orElseThrow(() -> new RuntimeException("Role is not found!"));
+        roles.add(role);
+        internshipDto.setRoles(roles);
+
         internshipService.update(id, internshipDto);
-        return new RedirectView("/home/internships/");
+        return new RedirectView("/home-admin/internships/");
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteInternship(@PathVariable Long id) {
         internshipService.delete(id);
-        return new RedirectView("/home/internships/");
+        return new RedirectView("/home-admin/internships/");
     }
 }

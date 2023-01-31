@@ -10,16 +10,16 @@ public class MentorMapper extends UserMapper{
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
-        entity.setFull_name(dto.getFull_name());
-        entity.setPhone_number(dto.getPhone_number());
+        entity.setFullName(dto.getFullName());
+        entity.setPhoneNumber(dto.getPhoneNumber());
         entity.setRoles(dto.getRoles());
-        entity.setIs_del_flg(dto.isIs_del_flg());
-        entity.setCreate_id(dto.getCreate_id());
-        entity.setCreate_at(dto.getCreate_at());
-        entity.setModified_id(dto.getModified_id());
-        entity.setModified_at(dto.getModified_at());
-        entity.setMax_internship(dto.getMax_internship());
-        entity.setIs_active_flg(dto.isIs_active_flg());
+        entity.setDelFlg(dto.isDelFlg());
+        entity.setCreateId(dto.getCreateId());
+        entity.setCreateAt(dto.getCreateAt());
+        entity.setModifiedId(dto.getModifiedId());
+        entity.setModifiedAt(dto.getModifiedAt());
+        entity.setMaxInternship(dto.getMaxInternship());
+        entity.setActiveFlg(dto.isActiveFlg());
         return entity;
     }
 
@@ -29,16 +29,16 @@ public class MentorMapper extends UserMapper{
         dto.setUsername(entity.getUsername());
         dto.setPassword(entity.getPassword());
         dto.setEmail(entity.getEmail());
-        dto.setFull_name(entity.getFull_name());
-        dto.setPhone_number(entity.getPhone_number());
+        dto.setFullName(entity.getFullName());
+        dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setRoles(entity.getRoles());
-        dto.setIs_del_flg(entity.isIs_del_flg());
-        dto.setCreate_id(entity.getCreate_id());
-        dto.setCreate_at(entity.getCreate_at());
-        dto.setModified_id(entity.getModified_id());
-        dto.setModified_at(entity.getModified_at());
-        dto.setMax_internship(entity.getMax_internship());
-        dto.setIs_active_flg(entity.isIs_active_flg());
+        dto.setDelFlg(entity.isDelFlg());
+        dto.setCreateId(entity.getCreateId());
+        dto.setCreateAt(entity.getCreateAt());
+        dto.setModifiedId(entity.getModifiedId());
+        dto.setModifiedAt(entity.getModifiedAt());
+        dto.setMaxInternship(entity.getMaxInternship());
+        dto.setActiveFlg(entity.isActiveFlg());
         return dto;
     }
 
@@ -46,14 +46,14 @@ public class MentorMapper extends UserMapper{
         entity.setUsername(dto.getUsername());
         entity.setPassword(dto.getPassword());
         entity.setEmail(dto.getEmail());
-        entity.setFull_name(dto.getFull_name());
-        entity.setPhone_number(dto.getPhone_number());
+        entity.setFullName(dto.getFullName());
+        entity.setPhoneNumber(dto.getPhoneNumber());
         entity.setRoles(dto.getRoles());
-        entity.setIs_del_flg(dto.isIs_del_flg());
-        entity.setModified_id(dto.getModified_id());
-        entity.setModified_at(dto.getModified_at());
-        entity.setMax_internship(dto.getMax_internship());
-        entity.setIs_active_flg(dto.isIs_active_flg());
+        entity.setDelFlg(dto.isDelFlg());
+        entity.setModifiedId(dto.getModifiedId());
+        entity.setModifiedAt(dto.getModifiedAt());
+        entity.setMaxInternship(dto.getMaxInternship());
+        entity.setActiveFlg(dto.isActiveFlg());
         return entity;
     }
 }

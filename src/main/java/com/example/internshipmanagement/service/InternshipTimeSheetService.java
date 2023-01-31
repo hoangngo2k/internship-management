@@ -27,12 +27,17 @@ public class InternshipTimeSheetService {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + keyword + "%");
     }
 
-    public Page<InternshipTimeSheet> getAll(Pageable pageable, String field, String key, int page, int size) {
+    public Page<InternshipTimeSheet> getAll(Pageable pageable, String key, int page, int size, String sort, String field) {
         Specification<InternshipTimeSheet> where = null;
         if (!StringUtils.isEmpty(key))
-            where = search(field, key);
-        Sort sortable = Sort.by("id").ascending();
-        pageable = PageRequest.of(page, size, sortable);
+            where = search("time", key);
+        Sort orders = null;
+        if (sort.equals("asc"))
+            orders = Sort.by(field).ascending();
+        if (sort.equals("desc"))
+            orders = Sort.by(field).descending();
+        if (orders != null)
+            pageable = PageRequest.of(page, size, orders);
         return repository.findAll(where, pageable);
     }
 

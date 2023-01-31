@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Internship Management</title>
@@ -10,11 +10,30 @@
 </head>
 <body>
 <div class="container my-2" style="text-align: -webkit-center">
-    <h3>Review List</h3><hr/>
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+        <div class="col-1 mt-4">
+            <a th:href="@{/home-mentor}" sec:authorize="hasRole('ROLE_MENTOR')" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-internship}" sec:authorize="hasRole('ROLE_INTERNSHIP')" style="text-decoration: none">HOME</a>
+        </div>
+        <div class="col-2 mt-3">
+            <form th:action="@{/logout}" method="post">
+                <button class="form-control btn btn-secondary" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+
+    <h3>Review List</h3>
+    <hr/>
     <div class="d-flex">
-        <div class="p-2"><a th:href="@{/reviews/save-form}" class="btn btn-primary btn-sm mb-3">Add Review</a></div>
+        <div class="p-2">
+            <a th:href="@{/home-mentor/reviews/save-form}" sec:authorize="hasRole('ROLE_MENTOR')"
+               class="btn btn-primary btn-sm mb-3">Add Review</a>
+            <a th:href="@{/home-internship/reviews/save-form}" sec:authorize="hasRole('ROLE_INTERNSHIP')"
+               class="btn btn-primary btn-sm mb-3">Add Review</a>
+        </div>
         <div class="input-group d-flex justify-content-end">
-            <form th:action="@{/reviews}" th:object="${searchForm}" method="get" class="d-inline-flex">
+            <form th:action="@{/home-internship/reviews}" th:object="${searchForm}" method="get" class="d-inline-flex">
                 <div class="form-outline">
                     <input type="search" id="form1" class="form-control" placeholder="Object ID..."
                            th:field="*{keyword}"/>
@@ -29,31 +48,45 @@
         <thead>
         <tr>
             <th>
-                ID
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">ID</a>-->
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
             </th>
             <th>
-                Type
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Username</a>-->
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'type'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Type</a>
             </th>
             <th>
-                Reviewer
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Email</a>-->
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'reviewer'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Reviewer</a>
             </th>
             <th>
-                Object
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Birthday</a>-->
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'object'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Object</a>
             </th>
-            <th>Rank</th>
-            <th>Content</th>
-            <th>Create ID</th>
-            <th>Create at</th>
-            <th>Modified ID</th>
-            <th>Modified at</th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'rank'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Rank</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'content'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Content</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/reviews/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            </th>
             <th>Action</th>
         </tr>
         </thead>
@@ -65,14 +98,16 @@
             <td th:text="${review.object}"></td>
             <td th:text="${review.rank}"></td>
             <td th:text="${review.content}"></td>
-            <td th:text="${review.create_id}"></td>
-            <td th:text="${review.create_at}"></td>
-            <td th:text="${review.modified_id}"></td>
-            <td th:text="${review.modified_at}"></td>
+            <td th:text="${review.createId}"></td>
+            <td th:text="${review.createAt}"></td>
+            <td th:text="${review.modifiedId}"></td>
+            <td th:text="${review.modifiedAt}"></td>
             <td>
-                <a th:href="@{/reviews/update-form/{id}(id=${review.id})}"
-                   class="btn btn-primary">Update</a>
-                <a th:href="@{/reviews/{id}(id=${review.id})}"
+                <a th:href="@{/home-mentor/reviews/update-form/{id}(id=${review.id})}"
+                   class="btn btn-primary" sec:authorize="hasRole('ROLE_MENTOR')">Update</a>
+                <a th:href="@{/home-internship/reviews/update-form/{id}(id=${review.id})}"
+                   class="btn btn-primary" sec:authorize="hasRole('ROLE_INTERNSHIP')">Update</a>
+                <a th:href="@{/home-internship/reviews/{id}(id=${review.id})}"
                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
@@ -83,7 +118,7 @@
         <ul class="pagination justify-content-center pagination-sm">
             <li th:if="${reviewList.getTotalPages() > 0}" class="page-link"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/(size=${reviewList.size}, page=${pageNumber} - 1)}"
+                <a th:href="@{/home-internship/reviews/(size=${reviewList.size}, page=${pageNumber} - 1)}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==reviewList.number + 1} ? active"
                    class="page-link"></a>

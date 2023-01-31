@@ -1,5 +1,6 @@
 package com.example.internshipmanagement.dto;
 
+import com.example.internshipmanagement.model.Internship;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,13 +11,14 @@ public class InternshipTimeSheetDto {
     private Long id;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate working_day;
+    private LocalDate workingDay;
     private String time;
-    private boolean is_del_flg;
-    private int create_id;
-    private Date create_at;
-    private int modified_id;
-    private Date modified_at;
+    private boolean isDelFlg;
+    private int createId;
+    private Date createAt;
+    private int modifiedId;
+    private Date modifiedAt;
+    private Internship internship;
 
     public Long getId() {
         return id;
@@ -24,14 +26,6 @@ public class InternshipTimeSheetDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getWorking_day() {
-        return working_day;
-    }
-
-    public void setWorking_day(LocalDate working_day) {
-        this.working_day = working_day;
     }
 
     public String getTime() {
@@ -42,43 +36,59 @@ public class InternshipTimeSheetDto {
         this.time = time;
     }
 
-    public boolean isIs_del_flg() {
-        return is_del_flg;
+    public LocalDate getWorkingDay() {
+        return workingDay;
     }
 
-    public void setIs_del_flg(boolean is_del_flg) {
-        this.is_del_flg = is_del_flg;
+    public void setWorkingDay(LocalDate workingDay) {
+        this.workingDay = workingDay;
     }
 
-    public int getCreate_id() {
-        return create_id;
+    public boolean isDelFlg() {
+        return isDelFlg;
     }
 
-    public void setCreate_id(int create_id) {
-        this.create_id = create_id;
+    public void setDelFlg(boolean delFlg) {
+        isDelFlg = delFlg;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public int getCreateId() {
+        return createId;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateId(int createId) {
+        this.createId = createId;
     }
 
-    public int getModified_id() {
-        return modified_id;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setModified_id(int modified_id) {
-        this.modified_id = modified_id;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public Date getModified_at() {
-        return modified_at;
+    public int getModifiedId() {
+        return modifiedId;
     }
 
-    public void setModified_at(Date modified_at) {
-        this.modified_at = modified_at;
+    public void setModifiedId(int modifiedId) {
+        this.modifiedId = modifiedId;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public void setModifiedAt(Date modifiedAt) {
+        this.modifiedAt = modifiedAt;
+    }
+
+    public Internship getInternship() {
+        return internship;
+    }
+
+    public void setInternship(Internship internship) {
+        this.internship = internship;
     }
 }

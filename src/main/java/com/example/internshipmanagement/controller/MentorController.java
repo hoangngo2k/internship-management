@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/mentors")
+@RequestMapping("/home-admin/mentors")
 public class MentorController {
     private final MentorService mentorService;
     private final RoleService roleService;
@@ -48,11 +48,15 @@ public class MentorController {
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                     @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                      @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<Mentor> mentorPage = mentorService.getAll(pageable, "username", searchForm.getKeyword(), page, size);
+        Page<Mentor> mentorPage = mentorService.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = mentorPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -78,15 +82,19 @@ public class MentorController {
                 .orElseThrow(() -> new RuntimeException("Role is not found!"));
         roles.add(role);
         mentorDto.setRoles(roles);
+
         String password = passwordEncoder.encode(mentorDto.getPassword());
         mentorDto.setPassword(password);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        mentorDto.setCreate_id(Math.toIntExact(userDto.getId()));
-        mentorDto.setModified_id(Math.toIntExact(userDto.getId()));
+
+        mentorDto.setCreateId(Math.toIntExact(userDto.getId()));
+        mentorDto.setModifiedId(Math.toIntExact(userDto.getId()));
+
         mentorService.save(mentorDto);
-        return new RedirectView("/home/mentors/");
+        return new RedirectView("/home-admin/mentors/");
     }
 
     @GetMapping("/update-form/{id}")
@@ -103,22 +111,31 @@ public class MentorController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             mentorDto.setId(id);
-            return new RedirectView("/home/mentors/update-form/" + id);
+            return new RedirectView("/home-admin/mentors/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
+
         String password = passwordEncoder.encode(mentorDto.getPassword());
         mentorDto.setPassword(password);
-        mentorDto.setModified_id(Math.toIntExact(userDto.getId()));
+
+        mentorDto.setModifiedId(Math.toIntExact(userDto.getId()));
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleService.getRoleByName(ERole.ROLE_MENTOR)
+                .orElseThrow(() -> new RuntimeException("Role is not found!"));
+        roles.add(role);
+        mentorDto.setRoles(roles);
+
         mentorService.update(id, mentorDto);
-        return new RedirectView("/home/mentors/");
+        return new RedirectView("/home-admin/mentors/");
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteMentor(@PathVariable Long id) {
         mentorService.delete(id);
-        return new RedirectView("/home/mentors/");
+        return new RedirectView("/home-admin/mentors/");
     }
 }

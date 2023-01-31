@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -25,22 +25,22 @@
     <h2>Save University</h2>
     <hr>
 
-    <form action="#" th:action="@{/home/universities/}" th:object="${university}"
+    <form action="#" th:action="@{/home-admin/universities/}" th:object="${university}"
           method="POST" class="was-validated">
         <label for="name">Name</label>
         <input type="text" th:field="*{name}" id="name"
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
-        <label for="is_del_flg">Is delete?</label>
-        <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
+        <label for="delFlg">Is delete?</label>
+        <input type="checkbox" th:field="*{delFlg}" id="delFlg"
                class="form-control mb-4 col-4 is-invalid">
-        <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
+        <span th:if="${#fields.hasErrors('delFlg')}" th:errors="*{delFlg}"></span>
 
         <input type="submit" value="Save" class="btn btn-info col-2">
     </form>
     <hr>
-    <a th:href="@{/home/universities/}" class="m-2">Back</a>
+    <a th:href="@{/home-admin/universities/}" class="m-2">Back</a>
 </div>
 </body>
 </html>

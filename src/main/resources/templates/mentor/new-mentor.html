@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -24,7 +24,7 @@
 
     <h2>Save Mentor</h2>
     <hr>
-    <form action="#" th:action="@{/home/mentors/}" th:object="${mentor}"
+    <form action="#" th:action="@{/home-admin/mentors/}" th:object="${mentor}"
           method="POST" class="was-validated">
         <label for="email">Email</label>
         <input type="email" th:field="*{email}" id="email"
@@ -41,35 +41,35 @@
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-        <label for="full_name">Full name</label>
-        <input type="text" th:field="*{full_name}" id="full_name"
+        <label for="fullName">Full name</label>
+        <input type="text" th:field="*{fullName}" id="fullName"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('full_name')}" th:errors="*{full_name}"></span>
+        <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
 
-        <label for="phone_number">Phone number</label>
-        <input type="text" th:field="*{phone_number}" id="phone_number"
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" th:field="*{phoneNumber}" id="phoneNumber"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('phone_number')}" th:errors="*{phone_number}"></span>
+        <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 
-        <label for="is_del_flg">Is delete?</label>
-        <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg"
+        <label for="delFlg">Is delete?</label>
+        <input type="checkbox" th:field="*{delFlg}" id="delFlg"
                class="form-control mb-4 col-4 is-invalid">
-        <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
+        <span th:if="${#fields.hasErrors('delFlg')}" th:errors="*{delFlg}"></span>
 
-        <label for="max_internship">Max Internship</label>
-        <input type="number" th:field="*{max_internship}" id="max_internship"
+        <label for="maxInternship">Max Internship</label>
+        <input type="number" th:field="*{maxInternship}" id="maxInternship"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('max_internship')}" th:errors="*{max_internship}"></span>
+        <span th:if="${#fields.hasErrors('maxInternship')}" th:errors="*{maxInternship}"></span>
 
-        <label for="is_active_flg">Is active?</label>
-        <input type="checkbox" th:field="*{is_active_flg}" id="is_active_flg"
+        <label for="activeFlg">Is active?</label>
+        <input type="checkbox" th:field="*{activeFlg}" id="activeFlg"
                class="form-control mb-4 col-4 is-invalid">
-        <span th:if="${#fields.hasErrors('is_active_flg')}" th:errors="*{is_active_flg}"></span>
+        <span th:if="${#fields.hasErrors('activeFlg')}" th:errors="*{activeFlg}"></span>
 
         <input type="submit" value="Save" class="btn btn-info col-2">
     </form>
     <hr>
-    <a th:href="@{/home/mentors/}" class="m-2">Back</a>
+    <a th:href="@{/home-admin/mentors/}" class="m-2">Back</a>
 </div>
 </body>
 </html>

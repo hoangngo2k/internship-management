@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -25,7 +25,7 @@
     <h2>Update Internship</h2>
     <hr>
 
-    <form action="#" th:action="@{/home/internships/{id}(id=${internship.id})}" th:object="${internship}"
+    <form action="#" th:action="@{/home-admin/internships/{id}(id=${internship.id})}" th:object="${internship}"
           method="POST" class="was-validated">
         <label for="id">ID</label>
         <input type="text" th:field="*{id}" id="id" class="form-control mb-4 col-4" disabled>
@@ -45,30 +45,30 @@
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-        <label for="full_name">Full name</label>
-        <input type="text" th:field="*{full_name}" id="full_name" placeholder="Nguy?n V?n A"
+        <label for="fullName">Full name</label>
+        <input type="text" th:field="*{fullName}" id="fullName"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('full_name')}" th:errors="*{full_name}"></span>
+        <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></span>
 
-        <label for="phone_number">Phone number</label>
-        <input type="text" th:field="*{phone_number}" id="phone_number" placeholder="0123456789"
+        <label for="phoneNumber">Phone number</label>
+        <input type="text" th:field="*{phoneNumber}" id="phoneNumber"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('phone_number')}" th:errors="*{phone_number}"></span>
+        <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 
-        <label for="is_del_flg">Is delete?</label>
-        <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
+        <label for="delFlg">Is delete?</label>
+        <input type="checkbox" th:field="*{delFlg}" id="delFlg"
                class="form-control mb-4 col-4 is-invalid">
-        <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
+        <span th:if="${#fields.hasErrors('delFlg')}" th:errors="*{delFlg}"></span>
 
         <label for="birthday">Birthday</label>
         <input type="date" th:field="*{birthday}" id="birthday"
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
 
-        <label for="identify_card">Identify Card</label>
-        <input type="text" th:field="*{identify_card}" id="identify_card"
+        <label for="identifyCard">Identify Card</label>
+        <input type="text" th:field="*{identifyCard}" id="identifyCard"
                class="form-control mb-4 col-4 is-invalid" required>
-        <span th:if="${#fields.hasErrors('identify_card')}" th:errors="*{identify_card}"></span>
+        <span th:if="${#fields.hasErrors('identifyCard')}" th:errors="*{identifyCard}"></span>
 
         <label for="status">Status</label>
         <input type="number" th:field="*{status}" id="status"
@@ -92,9 +92,9 @@
             <option th:each="university : ${universities}" th:value="${university.id}" th:text="${university.name}"></option>
         </select>
 
-        <label for="company_card">Company Card</label>
-        <select class="form-control mb-4 col-4" th:field="*{company_card}" id="company_card">
-            <option th:value="${internship.company_card.id}" th:text="${internship.company_card.id}"></option>
+        <label for="companyCard">Company Card</label>
+        <select class="form-control mb-4 col-4" th:field="*{companyCard}" id="companyCard">
+            <option th:value="${internship.companyCard.id}" th:text="${internship.companyCard.id}"></option>
             <option th:each="companyCard : ${companyCards}" th:value="${companyCard.id}" th:text="${companyCard.id}"></option>
         </select>
 
@@ -103,7 +103,7 @@
 
     <hr>
 
-    <a th:href="@{/home/internships/}" class="m-2"> Back</a>
+    <a th:href="@{/home-admin/internships/}" class="m-2"> Back</a>
 </div>
 </body>
 </html>

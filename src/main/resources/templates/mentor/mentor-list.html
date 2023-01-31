@@ -12,7 +12,7 @@
 <div class="container my-2" style="text-align: -webkit-center">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -23,9 +23,9 @@
     <hr/>
     <h3>Mentor List</h3>
     <div class="d-flex">
-        <div class="p-2"><a th:href="@{/home/mentors/save-form}" class="btn btn-primary btn-sm mb-3">Add Mentor</a></div>
+        <div class="p-2"><a th:href="@{/home-admin/mentors/save-form}" class="btn btn-primary btn-sm mb-3">Add Mentor</a></div>
         <div class="input-group d-flex justify-content-end">
-            <form th:action="@{/home/mentors/}" th:object="${searchForm}" method="get" class="d-inline-flex">
+            <form th:action="@{/home-admin/mentors/}" th:object="${searchForm}" method="get" class="d-inline-flex">
                 <div class="form-outline">
                     <input type="search" id="form1" class="form-control" placeholder="Username..."
                            th:field="*{keyword}"/>
@@ -40,31 +40,47 @@
         <thead>
         <tr>
             <th>
-                ID
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">ID</a>-->
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
             </th>
             <th>
-                Username
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Username</a>-->
+
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Username</a>
             </th>
             <th>
-                Email
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Email</a>-->
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Email</a>
             </th>
             <th>
-                Full Name
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Birthday</a>-->
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'fullName'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Full Name</a>
             </th>
-            <th>Phone Number</th>
-            <th>Create ID</th>
-            <th>Create at</th>
-            <th>Modified ID</th>
-            <th>Modified at</th>
-            <th>Max Internship</th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'phoneNumber'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Phone Number</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/mentors/(size=${size}, page=${page}, field=${'maxInternship'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Max Internship</a>
+            </th>
+            <th>Is active?</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -73,17 +89,18 @@
             <td th:text="${mentor.id}"></td>
             <td th:text="${mentor.username}"></td>
             <td th:text="${mentor.email}"></td>
-            <td th:text="${mentor.full_name}"></td>
-            <td th:text="${mentor.phone_number}"></td>
-            <td th:text="${mentor.create_id}"></td>
-            <td th:text="${mentor.create_at}"></td>
-            <td th:text="${mentor.modified_id}"></td>
-            <td th:text="${mentor.modified_at}"></td>
-            <td th:text="${mentor.max_internship}"></td>
+            <td th:text="${mentor.fullName}"></td>
+            <td th:text="${mentor.phoneNumber}"></td>
+            <td th:text="${mentor.createId}"></td>
+            <td th:text="${mentor.createAt}"></td>
+            <td th:text="${mentor.modifiedId}"></td>
+            <td th:text="${mentor.modifiedAt}"></td>
+            <td th:text="${mentor.maxInternship}"></td>
+            <td th:text="${mentor.activeFlg}"></td>
             <td>
-                <a th:href="@{/home/mentors/update-form/{id}(id=${mentor.id})}"
+                <a th:href="@{/home-admin/mentors/update-form/{id}(id=${mentor.id})}"
                    class="btn btn-primary">Update</a>
-                <a th:href="@{/home/mentors/{id}(id=${mentor.id})}"
+                <a th:href="@{/home-admin/mentors/{id}(id=${mentor.id})}"
                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
@@ -94,7 +111,7 @@
         <ul class="pagination justify-content-center pagination-sm">
             <li th:if="${mentorList.getTotalPages() > 0}" class="page-link"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/(size=${mentorList.size}, page=${pageNumber} - 1)}"
+                <a th:href="@{/home-admin/mentors/(size=${mentorList.size}, page=${pageNumber} - 1)}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==mentorList.number + 1} ? active"
                    class="page-link"></a>

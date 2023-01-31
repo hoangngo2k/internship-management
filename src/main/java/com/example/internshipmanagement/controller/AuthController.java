@@ -11,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,16 +49,32 @@ public class AuthController {
         userDto = userService.getUserByUsername(userDto.getUsername());
         Role roleAdmin = roleService.getRoleByName(ERole.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Role is not found"));
+        Role roleMentor = roleService.getRoleByName(ERole.ROLE_MENTOR)
+                .orElseThrow(() -> new RuntimeException("Role is not found"));
         if (userDto.getRoles().contains(roleAdmin))
-            return new RedirectView("/home");
-        else {
-            return new RedirectView("/reviews/");
+            return new RedirectView("/home-admin");
+        else if (userDto.getRoles().contains(roleMentor)){
+            return new RedirectView("/home-mentor");
+        } else {
+            return new RedirectView("/home-internship");
         }
     }
 
-    @GetMapping("/home")
+    @GetMapping("/home-admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView homePage() {
-        return new ModelAndView("home");
+    public ModelAndView adminHomePage() {
+        return new ModelAndView("admin/home");
+    }
+
+    @GetMapping("/home-mentor")
+    @PreAuthorize("hasRole('MENTOR')")
+    public ModelAndView mentorHomePage() {
+        return new ModelAndView("mentor/home");
+    }
+
+    @GetMapping("/home-internship")
+    @PreAuthorize("hasRole('INTERNSHIP')")
+    public ModelAndView internshipHomePage() {
+        return new ModelAndView("internship/home");
     }
 }

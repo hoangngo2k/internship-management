@@ -25,15 +25,15 @@ public class University {
     private Long id;
     @Size(min = 3)
     private String name;
-    private boolean is_del_flg;
+    private boolean isDelFlg;
     @CreatedBy
-    private int create_id;
+    private int createId;
     @CreatedDate
-    private Date create_at;
+    private Date createAt;
     @LastModifiedBy
-    private int modified_id;
+    private int modifiedId;
     @LastModifiedDate
-    private Date modified_at;
+    private Date modifiedAt;
     @OneToMany(mappedBy = "university")
     private List<Internship> internshipList;
 
@@ -53,44 +53,44 @@ public class University {
         this.name = name;
     }
 
-    public boolean isIs_del_flg() {
-        return is_del_flg;
+    public boolean isDelFlg() {
+        return isDelFlg;
     }
 
-    public void setIs_del_flg(boolean is_del_flg) {
-        this.is_del_flg = is_del_flg;
+    public void setDelFlg(boolean delFlg) {
+        isDelFlg = delFlg;
     }
 
-    public int getCreate_id() {
-        return create_id;
+    public int getCreateId() {
+        return createId;
     }
 
-    public void setCreate_id(int create_id) {
-        this.create_id = create_id;
+    public void setCreateId(int createId) {
+        this.createId = createId;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public int getModified_id() {
-        return modified_id;
+    public int getModifiedId() {
+        return modifiedId;
     }
 
-    public void setModified_id(int modified_id) {
-        this.modified_id = modified_id;
+    public void setModifiedId(int modifiedId) {
+        this.modifiedId = modifiedId;
     }
 
-    public Date getModified_at() {
-        return modified_at;
+    public Date getModifiedAt() {
+        return modifiedAt;
     }
 
-    public void setModified_at(Date modified_at) {
-        this.modified_at = modified_at;
+    public void setModifiedAt(Date modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     public List<Internship> getInternshipList() {

@@ -12,7 +12,7 @@
 <div class="container my-2" style="text-align: -webkit-center">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -23,10 +23,12 @@
     <hr/>
     <h3>Company Card List</h3>
     <div class="d-flex">
-        <div class="p-2"><a th:href="@{/home/company-cards/save-form}" class="btn btn-primary btn-sm mb-3">Add Company Card</a>
+        <div class="p-2"><a th:href="@{/home-admin/company-cards/save-form}" class="btn btn-primary btn-sm mb-3">Add
+            Company Card</a>
         </div>
         <div class="input-group d-flex justify-content-end">
-            <form th:action="@{/home/company-cards/}" th:object="${searchForm}" method="get" class="d-inline-flex">
+            <form th:action="@{/home-admin/company-cards/}" th:object="${searchForm}" method="get"
+                  class="d-inline-flex">
                 <div class="form-outline">
                     <input type="text" id="form1" class="form-control" placeholder="ID..."
                            th:field="*{keyword}"/>
@@ -37,36 +39,47 @@
             </form>
         </div>
     </div>
-    <table class="table table-striped table-responsive">
+    <table class="table table-striped table-responsive-md">
         <thead>
         <tr>
             <th>
-                ID
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">ID</a>-->
+                <a th:href="@{/home-admin/company-cards/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
             </th>
             <th>Is using</th>
             <th>Is delete</th>
-            <th>Create ID</th>
-            <th>Create at</th>
-            <th>Modified ID</th>
-            <th>Modified at</th>
+            <th>
+                <a th:href="@{/home-admin/company-cards/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/company-cards/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/company-cards/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/company-cards/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            </th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="companyCard:${companyCardList}">
             <td th:text="${companyCard.id}"></td>
-            <td th:text="${companyCard.using_flg}"></td>
-            <td th:text="${companyCard.is_del_flg}"></td>
-            <td th:text="${companyCard.create_id}"></td>
-            <td th:text="${companyCard.create_at}"></td>
-            <td th:text="${companyCard.modified_id}"></td>
-            <td th:text="${companyCard.modified_at}"></td>
+            <td th:text="${companyCard.usingFlg}"></td>
+            <td th:text="${companyCard.delFlg}"></td>
+            <td th:text="${companyCard.createId}"></td>
+            <td th:text="${companyCard.createAt}"></td>
+            <td th:text="${companyCard.modifiedId}"></td>
+            <td th:text="${companyCard.modifiedAt}"></td>
             <td>
-                <a th:href="@{/home/company-cards/update-form/{id}(id=${companyCard.id})}"
+                <a th:href="@{/home-admin/company-cards/update-form/{id}(id=${companyCard.id})}"
                    class="btn btn-primary">Update</a>
-                <a th:href="@{/home/company-cards/{id}(id=${companyCard.id})}"
+                <a th:href="@{/home-admin/company-cards/{id}(id=${companyCard.id})}"
                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
@@ -77,7 +90,7 @@
         <ul class="pagination justify-content-center pagination-sm">
             <li th:if="${companyCardList.getTotalPages() > 0}" class="page-link"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/(size=${companyCardList.size}, page=${pageNumber} - 1)}"
+                <a th:href="@{/home-admin/company-cards/(size=${companyCardList.size}, page=${pageNumber} - 1)}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==companyCardList.number + 1} ? active"
                    class="page-link"></a>

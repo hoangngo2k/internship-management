@@ -15,7 +15,7 @@ public class Internship extends User {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     @Column(unique = true)
-    private String identify_card;
+    private String identifyCard;
     @Column(length = 1)
     private int status;
     @Column(length = 1)
@@ -42,12 +42,12 @@ public class Internship extends User {
         this.birthday = birthday;
     }
 
-    public String getIdentify_card() {
-        return identify_card;
+    public String getIdentifyCard() {
+        return identifyCard;
     }
 
-    public void setIdentify_card(String identify_card) {
-        this.identify_card = identify_card;
+    public void setIdentifyCard(String identifyCard) {
+        this.identifyCard = identifyCard;
     }
 
     public int getStatus() {

@@ -29,11 +29,16 @@ public class CompanyCardService {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(field), key);
     }
 
-    public Page<CompanyCard> getAll(Pageable pageable, String field, String key, int page, int size) {
+    public Page<CompanyCard> getAll(Pageable pageable, String key, int page, int size, String sort, String field) {
         Specification<CompanyCard> where = null;
-        if (!StringUtils.isEmpty(key)) where = search(field, key);
-        Sort sortable = Sort.by("id").ascending();
-        pageable = PageRequest.of(page, size, sortable);
+        if (!StringUtils.isEmpty(key)) where = search("id", key);
+        Sort orders = null;
+        if (sort.equals("asc"))
+            orders = Sort.by(field).ascending();
+        if (sort.equals("desc"))
+            orders = Sort.by(field).descending();
+        if (orders != null)
+            pageable = PageRequest.of(page, size, orders);
         return repository.findAll(where, pageable);
     }
 

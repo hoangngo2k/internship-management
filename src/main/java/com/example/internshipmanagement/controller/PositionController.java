@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/positions")
+@RequestMapping("/home-admin/positions")
 public class PositionController {
 
     private final PositionService service;
@@ -39,11 +39,15 @@ public class PositionController {
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                     @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                      @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<Position> positionPage = service.getAll(pageable, "name", searchForm.getKeyword(), page, size);
+        Page<Position> positionPage = service.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = positionPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -67,10 +71,10 @@ public class PositionController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        positionDto.setCreate_id(Math.toIntExact(userDto.getId()));
-        positionDto.setModified_id(Math.toIntExact(userDto.getId()));
+        positionDto.setCreateId(Math.toIntExact(userDto.getId()));
+        positionDto.setModifiedId(Math.toIntExact(userDto.getId()));
         service.save(positionDto);
-        return new RedirectView("/home/positions/");
+        return new RedirectView("/home-admin/positions/");
     }
 
     @GetMapping("/update-form/{id}")
@@ -87,20 +91,20 @@ public class PositionController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             positionDto.setId(id);
-            return new RedirectView("/home/positions/update-form/" + id);
+            return new RedirectView("/home-admin/positions/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        positionDto.setModified_id(Math.toIntExact(userDto.getId()));
+        positionDto.setModifiedId(Math.toIntExact(userDto.getId()));
         service.update(id, positionDto);
-        return new RedirectView("/home/positions/");
+        return new RedirectView("/home-admin/positions/");
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteMentor(@PathVariable Long id) {
         service.delete(id);
-        return new RedirectView("/home/positions/");
+        return new RedirectView("/home-admin/positions/");
     }
 }

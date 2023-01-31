@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/company-cards")
+@RequestMapping("/home-admin/company-cards")
 public class CompanyCardController {
 
     private final CompanyCardService service;
@@ -39,11 +39,15 @@ public class CompanyCardController {
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                     @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                      @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<CompanyCard> companyCardPage = service.getAll(pageable, "using_flg", searchForm.getKeyword(), page, size);
+        Page<CompanyCard> companyCardPage = service.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = companyCardPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -67,10 +71,10 @@ public class CompanyCardController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        companyCardDto.setCreate_id(Math.toIntExact(userDto.getId()));
-        companyCardDto.setModified_id(Math.toIntExact(userDto.getId()));
+        companyCardDto.setCreateId(Math.toIntExact(userDto.getId()));
+        companyCardDto.setModifiedId(Math.toIntExact(userDto.getId()));
         service.save(companyCardDto);
-        return new RedirectView("/home/company-cards/");
+        return new RedirectView("/home-admin/company-cards/");
     }
 
     @GetMapping("/update-form/{id}")
@@ -87,20 +91,20 @@ public class CompanyCardController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             companyCardDto.setId(id);
-            return new RedirectView("/home/company-cards/update-form/" + id);
+            return new RedirectView("/home-admin/company-cards/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        companyCardDto.setModified_id(Math.toIntExact(userDto.getId()));
+        companyCardDto.setModifiedId(Math.toIntExact(userDto.getId()));
         service.update(id, companyCardDto);
-        return new RedirectView("/home/company-cards/");
+        return new RedirectView("/home-admin/company-cards/");
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteMentor(@PathVariable String id) {
         service.delete(id);
-        return new RedirectView("/home/company-cards/");
+        return new RedirectView("/home-admin/company-cards/");
     }
 }

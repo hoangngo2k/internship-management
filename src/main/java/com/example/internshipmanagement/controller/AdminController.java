@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/admins")
+@RequestMapping("/home-admin/admins")
 public class AdminController {
 
     private final UserService userService;
@@ -28,11 +28,15 @@ public class AdminController {
     public ModelAndView getAdminList(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                     @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                      @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<User> adminPage = userService.getAll(pageable, "username", searchForm.getKeyword(), page, size);
+        Page<User> adminPage = userService.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = adminPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Internship Management</title>
@@ -12,7 +12,8 @@
 <div class="container my-2" style="text-align: -webkit-center">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-internship}" sec:authorize="hasRole('ROLE_INTERNSHIP')" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" sec:authorize="hasRole('ROLE_ADMIN')" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -23,9 +24,15 @@
     <hr/>
     <h3>Internship Timesheet List</h3>
     <div class="d-flex">
-        <div class="p-2"><a th:href="@{/home/time-sheets/save-form}" class="btn btn-primary btn-sm mb-3">Add Timesheet</a></div>
+        <div class="p-2">
+            <a th:href="@{/home-internship/time-sheets/save-form}" sec:authorize="hasRole('ROLE_INTERNSHIP')"
+               class="btn btn-primary btn-sm mb-3">Add Timesheet</a>
+            <a th:href="@{/home-admin/time-sheets/save-form}" sec:authorize="hasRole('ROLE_ADMIN')"
+               class="btn btn-primary btn-sm mb-3">Add Timesheet</a>
+        </div>
         <div class="input-group d-flex justify-content-end">
-            <form th:action="@{/home/time-sheets/}" th:object="${searchForm}" method="get" class="d-inline-flex">
+            <form th:action="@{/home-internship/time-sheets/}" th:object="${searchForm}" method="get"
+                  class="d-inline-flex">
                 <div class="form-outline">
                     <input type="search" id="form1" class="form-control" placeholder="Time..."
                            th:field="*{keyword}"/>
@@ -36,51 +43,55 @@
             </form>
         </div>
     </div>
-    <table class="table table-striped table-responsive">
+    <table class="table table-striped table-responsive-md">
         <thead>
         <tr>
             <th>
-                ID
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">ID</a>-->
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
             </th>
             <th>
-                Working day
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Username</a>-->
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'workingDay'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Working day</a>
             </th>
             <th>
-                Time
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Email</a>-->
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'time'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Time</a>
+            </th>
+            <th>Is delete?</th>
+            <th>
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
             </th>
             <th>
-                Is delete
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Birthday</a>-->
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
             </th>
-            <th>Create ID</th>
-            <th>Create at</th>
-            <th>Modified ID</th>
-            <th>Modified at</th>
-            <th>Action</th>
+            <th>
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/time-sheets/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            <th sec:authorize="hasRole('ROLE_ADMIN')">Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="timesheet:${timesheetList}">
             <td th:text="${timesheet.id}"></td>
-            <td th:text="${timesheet.working_day}"></td>
+            <td th:text="${timesheet.workingDay}"></td>
             <td th:text="${timesheet.time}"></td>
-            <td th:text="${timesheet.is_del_flg}"></td>
-            <td th:text="${timesheet.create_id}"></td>
-            <td th:text="${timesheet.create_at}"></td>
-            <td th:text="${timesheet.modified_id}"></td>
-            <td th:text="${timesheet.modified_at}"></td>
+            <td th:text="${timesheet.delFlg}"></td>
+            <td th:text="${timesheet.createId}"></td>
+            <td th:text="${timesheet.createAt}"></td>
+            <td th:text="${timesheet.modifiedId}"></td>
+            <td th:text="${timesheet.modifiedAt}"></td>
             <td>
-                <a th:href="@{/home/time-sheets/update-form/{id}(id=${timesheet.id})}"
-                   class="btn btn-primary">Update</a>
-                <a th:href="@{/home/time-sheets/{id}(id=${timesheet.id})}"
-                   class="btn btn-danger">Delete</a>
+                <a th:href="@{/home-admin/time-sheets/update-form/{id}(id=${timesheet.id})}"
+                   class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')">Update</a>
+                <a th:href="@{/home-admin/time-sheets/{id}(id=${timesheet.id})}"
+                   class="btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">Delete</a>
             </td>
         </tr>
         </tbody>
@@ -90,7 +101,7 @@
         <ul class="pagination justify-content-center pagination-sm">
             <li th:if="${timesheetList.getTotalPages() > 0}" class="page-link"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/(size=${timesheetList.size}, page=${pageNumber} - 1)}"
+                <a th:href="@{/home-internship/time-sheets/(size=${timesheetList.size}, page=${pageNumber} - 1)}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==timesheetList.number + 1} ? active"
                    class="page-link"></a>

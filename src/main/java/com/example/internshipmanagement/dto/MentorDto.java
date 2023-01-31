@@ -2,22 +2,22 @@ package com.example.internshipmanagement.dto;
 
 public class MentorDto extends UserDto {
 
-    private int max_internship;
-    private boolean is_active_flg;
+    private int maxInternship;
+    private boolean isActiveFlg;
 
-    public int getMax_internship() {
-        return max_internship;
+    public int getMaxInternship() {
+        return maxInternship;
     }
 
-    public void setMax_internship(int max_internship) {
-        this.max_internship = max_internship;
+    public void setMaxInternship(int maxInternship) {
+        this.maxInternship = maxInternship;
     }
 
-    public boolean isIs_active_flg() {
-        return is_active_flg;
+    public boolean isActiveFlg() {
+        return isActiveFlg;
     }
 
-    public void setIs_active_flg(boolean is_active_flg) {
-        this.is_active_flg = is_active_flg;
+    public void setActiveFlg(boolean activeFlg) {
+        isActiveFlg = activeFlg;
     }
 }

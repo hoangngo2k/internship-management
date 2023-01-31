@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="ISO-8859-1">
     <title>Internship Management System</title>
@@ -10,10 +10,23 @@
 </head>
 <body>
 <div class="container">
+    <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
+        <div class="col-1 mt-4">
+            <a th:href="@{/home-mentor}" sec:authorize="hasRole('ROLE_MENTOR')" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-internship}" sec:authorize="hasRole('ROLE_INTERNSHIP')" style="text-decoration: none">HOME</a>
+        </div>
+        <div class="col-2 mt-3">
+            <form th:action="@{/logout}" method="post">
+                <button class="form-control btn btn-secondary" type="submit">Log out</button>
+            </form>
+        </div>
+    </div>
+    <hr/>
+
     <h2>Update Review</h2>
     <hr>
 
-    <form action="#" th:action="@{/reviews/{id}(id=${review.id})}" th:object="${review}"
+    <form action="#" th:action="@{/home-internship/reviews/{id}(id=${review.id})}" th:object="${review}"
           method="POST" class="was-validated">
         <label for="id">ID</label>
         <input type="text" th:field="*{id}" id="id" class="form-control mb-4 col-4" disabled>
@@ -43,17 +56,17 @@
                class="form-control mb-4 col-4 is-invalid" required>
         <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
 
-        <label for="is_del_flg">Is delete?</label>
-        <input type="checkbox" th:field="*{is_del_flg}" id="is_del_flg" placeholder="0"
+        <label for="delFlg">Is delete?</label>
+        <input type="checkbox" th:field="*{delFlg}" id="delFlg"
                class="form-control mb-4 col-4 is-invalid">
-        <span th:if="${#fields.hasErrors('is_del_flg')}" th:errors="*{is_del_flg}"></span>
+        <span th:if="${#fields.hasErrors('delFlg')}" th:errors="*{delFlg}"></span>
 
         <button type="submit" class="btn btn-info col-2">Save</button>
     </form>
 
     <hr>
 
-    <a th:href="@{/reviews/}" class="m-2"> Back</a>
+    <a th:href="@{/home-internship/reviews/}" class="m-2"> Back</a>
 </div>
 </body>
 </html>

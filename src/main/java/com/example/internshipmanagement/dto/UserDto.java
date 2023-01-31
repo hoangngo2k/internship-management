@@ -17,36 +17,36 @@ public class UserDto implements UserDetails {
     @JsonIgnore
     private String password;
     private String email;
-    private String full_name;
-    private String phone_number;
-    private boolean is_del_flg;
-    private int create_id;
-    private Date create_at;
-    private int modified_id;
-    private Date modified_at;
+    private String fullName;
+    private String phoneNumber;
+    private boolean isDelFlg;
+    private int createId;
+    private Date createAt;
+    private int modifiedId;
+    private Date modifiedAt;
     private Set<Role> roles;
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password, String email, String full_name, String phone_number, boolean is_del_flg, int create_id, int modified_id) {
+    public UserDto(String username, String password, String email, String fullName, String phoneNumber, boolean isDelFlg, int createId, int modifiedId) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.full_name = full_name;
-        this.phone_number = phone_number;
-        this.is_del_flg = is_del_flg;
-        this.create_id = create_id;
-        this.modified_id = modified_id;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.isDelFlg = isDelFlg;
+        this.createId = createId;
+        this.modifiedId = modifiedId;
     }
 
-    public UserDto(Long id, String username, String password, String email, String full_name, Collection<? extends GrantedAuthority> authorities) {
+    public UserDto(Long id, String username, String password, String email, String fullName, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.full_name = full_name;
+        this.fullName = fullName;
         this.authorities = authorities;
     }
 
@@ -55,7 +55,7 @@ public class UserDto implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
                 .collect(Collectors.toList());
         return new UserDto(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(),
-                user.getFull_name(), grantedAuthorityList);
+                user.getFullName(), grantedAuthorityList);
     }
 
     public Long getId() {
@@ -82,60 +82,60 @@ public class UserDto implements UserDetails {
         this.email = email;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isIs_del_flg() {
-        return is_del_flg;
+    public boolean isDelFlg() {
+        return isDelFlg;
     }
 
-    public void setIs_del_flg(boolean is_del_flg) {
-        this.is_del_flg = is_del_flg;
+    public void setDelFlg(boolean delFlg) {
+        isDelFlg = delFlg;
     }
 
-    public int getCreate_id() {
-        return create_id;
+    public int getCreateId() {
+        return createId;
     }
 
-    public void setCreate_id(int create_id) {
-        this.create_id = create_id;
+    public void setCreateId(int createId) {
+        this.createId = createId;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public int getModified_id() {
-        return modified_id;
+    public int getModifiedId() {
+        return modifiedId;
     }
 
-    public void setModified_id(int modified_id) {
-        this.modified_id = modified_id;
+    public void setModifiedId(int modifiedId) {
+        this.modifiedId = modifiedId;
     }
 
-    public Date getModified_at() {
-        return modified_at;
+    public Date getModifiedAt() {
+        return modifiedAt;
     }
 
-    public void setModified_at(Date modified_at) {
-        this.modified_at = modified_at;
+    public void setModifiedAt(Date modifiedAt) {
+        this.modifiedAt = modifiedAt;
     }
 
     public Set<Role> getRoles() {

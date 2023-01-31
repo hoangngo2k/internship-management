@@ -8,21 +8,23 @@ public class InternshipTimeSheetMapper {
     public InternshipTimeSheet toEntity(InternshipTimeSheetDto dto) {
         InternshipTimeSheet entity = new InternshipTimeSheet();
         entity.setTime(dto.getTime());
-        entity.setWorking_day(dto.getWorking_day());
-        entity.setIs_del_flg(dto.isIs_del_flg());
-        entity.setCreate_id(dto.getCreate_id());
-        entity.setCreate_at(dto.getCreate_at());
-        entity.setModified_id(dto.getModified_id());
-        entity.setModified_at(dto.getModified_at());
+        entity.setWorkingDay(dto.getWorkingDay());
+        entity.setDelFlg(dto.isDelFlg());
+        entity.setCreateId(dto.getCreateId());
+        entity.setCreateAt(dto.getCreateAt());
+        entity.setModifiedId(dto.getModifiedId());
+        entity.setModifiedAt(dto.getModifiedAt());
+        entity.setInternship(dto.getInternship());
         return entity;
     }
 
     public InternshipTimeSheet toEntity(InternshipTimeSheet entity, InternshipTimeSheetDto dto) {
         entity.setTime(dto.getTime());
-        entity.setWorking_day(dto.getWorking_day());
-        entity.setIs_del_flg(dto.isIs_del_flg());
-        entity.setModified_id(dto.getModified_id());
-        entity.setModified_at(dto.getModified_at());
+        entity.setWorkingDay(dto.getWorkingDay());
+        entity.setDelFlg(dto.isDelFlg());
+        entity.setModifiedId(dto.getModifiedId());
+        entity.setModifiedAt(dto.getModifiedAt());
+        entity.setInternship(dto.getInternship());
         return entity;
     }
 
@@ -30,12 +32,13 @@ public class InternshipTimeSheetMapper {
         InternshipTimeSheetDto dto = new InternshipTimeSheetDto();
         dto.setId(entity.getId());
         dto.setTime(entity.getTime());
-        dto.setWorking_day(entity.getWorking_day());
-        dto.setIs_del_flg(entity.isIs_del_flg());
-        dto.setCreate_id(entity.getCreate_id());
-        dto.setCreate_at(entity.getCreate_at());
-        dto.setModified_id(entity.getModified_id());
-        dto.setModified_at(entity.getModified_at());
+        dto.setWorkingDay(entity.getWorkingDay());
+        dto.setDelFlg(entity.isDelFlg());
+        dto.setCreateId(entity.getCreateId());
+        dto.setCreateAt(entity.getCreateAt());
+        dto.setModifiedId(entity.getModifiedId());
+        dto.setModifiedAt(entity.getModifiedAt());
+        dto.setInternship(entity.getInternship());
         return dto;
     }
 }

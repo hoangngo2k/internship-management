@@ -30,16 +30,21 @@ public class InternshipService {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + key + "%");
     }
 
-    public Page<Internship> getAll(Pageable pageable, String field, String key, int page, int size) {
+    public Page<Internship> getAll(Pageable pageable, String key, int page, int size, String sort, String field) {
         Specification<Internship> where = null;
         if (!StringUtils.isEmpty(key))
-            where = search(field, key);
-        Sort sortable = Sort.by("id").ascending();
-        pageable = PageRequest.of(page, size, sortable);
+            where = search("username", key);
+        Sort orders = null;
+        if (sort.equals("asc"))
+            orders = Sort.by(field).ascending();
+        if (sort.equals("desc"))
+            orders = Sort.by(field).descending();
+        if (orders != null)
+            pageable = PageRequest.of(page, size, orders);
         return internshipRepository.findAll(where, pageable);
     }
 
-    public List<InternshipDto> getAllInternship() {
+    public List<InternshipDto> getAll() {
         return internshipRepository.findAll()
                 .stream().map(mapper::toDto)
                 .collect(Collectors.toList());

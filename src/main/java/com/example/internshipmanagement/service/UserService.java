@@ -37,11 +37,17 @@ public class UserService implements UserDetailsService {
         return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get(field), "%" + keyword + "%");
     }
 
-    public Page<User> getAll(Pageable pageable, String field, String keyword, int page, int size) {
+    public Page<User> getAll(Pageable pageable, String keyword, int page, int size, String sort, String field) {
         Specification<User> specification = null;
         if (!StringUtils.isEmpty(keyword))
-            specification = search(field, keyword);
-        pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+            specification = search("username", keyword);
+        Sort orders = null;
+        if (sort.equals("asc"))
+            orders = Sort.by(field).ascending();
+        if (sort.equals("desc"))
+            orders = Sort.by(field).descending();
+        if (orders != null)
+            pageable = PageRequest.of(page, size, orders);
         return userRepository.findAll(specification, pageable);
     }
 
@@ -61,7 +67,6 @@ public class UserService implements UserDetailsService {
 
     public UserDto save(UserDto userDTO) {
         User user = mapper.toEntity(userDTO);
-//        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return mapper.toDto(userRepository.save(user));
     }
 

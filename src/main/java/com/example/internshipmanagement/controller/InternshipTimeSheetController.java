@@ -1,10 +1,16 @@
 package com.example.internshipmanagement.controller;
 
+import com.example.internshipmanagement.dto.InternshipDto;
 import com.example.internshipmanagement.dto.InternshipTimeSheetDto;
 import com.example.internshipmanagement.dto.SearchForm;
 import com.example.internshipmanagement.dto.UserDto;
+import com.example.internshipmanagement.enums.ERole;
+import com.example.internshipmanagement.model.Internship;
 import com.example.internshipmanagement.model.InternshipTimeSheet;
+import com.example.internshipmanagement.model.Role;
+import com.example.internshipmanagement.service.InternshipService;
 import com.example.internshipmanagement.service.InternshipTimeSheetService;
+import com.example.internshipmanagement.service.RoleService;
 import com.example.internshipmanagement.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,19 +25,24 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @RestController
-@RequestMapping("/home/time-sheets")
+@RequestMapping({"/home-admin/time-sheets", "/home-internship/time-sheets"})
 public class InternshipTimeSheetController {
 
     private final InternshipTimeSheetService service;
     private final UserService userService;
+    private final InternshipService internshipService;
+    private final RoleService roleService;
 
-    public InternshipTimeSheetController(InternshipTimeSheetService service, UserService userService) {
+    public InternshipTimeSheetController(InternshipTimeSheetService service, UserService userService, InternshipService internshipService, RoleService roleService) {
         this.service = service;
         this.userService = userService;
+        this.internshipService = internshipService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -39,11 +50,15 @@ public class InternshipTimeSheetController {
     public ModelAndView getAllMentor(Model model,
                                      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
                                      @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+                                     @RequestParam(name = "sort", required = false, defaultValue = "asc") String sort,
+                                     @RequestParam(name = "field", required = false, defaultValue = "id") String field,
                                      @ModelAttribute(value = "searchForm") SearchForm searchForm) {
         model.addAttribute("page", page);
         model.addAttribute("size", size);
+        String sortDirection = sort.equals("asc") ? "desc" : "asc";
+        model.addAttribute("sortDirection", sortDirection);
         Pageable pageable = null;
-        Page<InternshipTimeSheet> internshipTimeSheetPage = service.getAll(pageable, "time", searchForm.getKeyword(), page, size);
+        Page<InternshipTimeSheet> internshipTimeSheetPage = service.getAll(pageable, searchForm.getKeyword(), page, size, sort, field);
         int totalPages = internshipTimeSheetPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -58,6 +73,15 @@ public class InternshipTimeSheetController {
     @PreAuthorize("hasRole('ADMIN') or hasRole('INTERNSHIP')")
     public ModelAndView saveMentorForm(Model model, InternshipTimeSheetDto timeSheetDto) {
         model.addAttribute("timesheet", timeSheetDto);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto userDto = (UserDto) authentication.getPrincipal();
+        userDto = userService.getUserByUsername(userDto.getUsername());
+        model.addAttribute("internshipRole", userDto);
+
+        List<InternshipDto> internships = internshipService.getAll();
+        model.addAttribute("internships", internships);
+
         return new ModelAndView("time-sheet/new-time-sheet");
     }
 
@@ -67,10 +91,21 @@ public class InternshipTimeSheetController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        timeSheetDto.setCreate_id(Math.toIntExact(userDto.getId()));
-        timeSheetDto.setModified_id(Math.toIntExact(userDto.getId()));
+
+        timeSheetDto.setCreateId(Math.toIntExact(userDto.getId()));
+        timeSheetDto.setModifiedId(Math.toIntExact(userDto.getId()));
+
         service.save(timeSheetDto);
-        return new RedirectView("/home/time-sheets/");
+
+        Role roleAdmin = roleService.getRoleByName(ERole.ROLE_ADMIN)
+                .orElseThrow(() -> new RuntimeException("Role is not found!"));
+
+        RedirectView redirectView;
+        if(userDto.getRoles().contains(roleAdmin))
+            redirectView = new RedirectView("/home-admin/time-sheets/");
+        else
+            redirectView = new RedirectView("/home-internship/time-sheets/");
+        return redirectView;
     }
 
     @GetMapping("/update-form/{id}")
@@ -78,6 +113,11 @@ public class InternshipTimeSheetController {
     public ModelAndView updateMentorFrom(Model model, @PathVariable Long id) {
         InternshipTimeSheetDto timeSheetDto = service.getTimesheetById(id);
         model.addAttribute("timesheet", timeSheetDto);
+
+        List<InternshipDto> internships = internshipService.getAll().stream()
+                .filter(internshipDto -> !Objects.equals(internshipDto.getId(), timeSheetDto.getInternship().getId()))
+                .toList();
+        model.addAttribute("internships", internships);
         return new ModelAndView("time-sheet/update-time-sheet");
     }
 
@@ -87,20 +127,20 @@ public class InternshipTimeSheetController {
                                      BindingResult result, Model model) {
         if (result.hasErrors()) {
             timeSheetDto.setId(id);
-            return new RedirectView("/home/time-sheets/update-form/" + id);
+            return new RedirectView("/home-admin/time-sheets/update-form/" + id);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDto userDto = (UserDto) authentication.getPrincipal();
         userDto = userService.getUserByUsername(userDto.getUsername());
-        timeSheetDto.setModified_id(Math.toIntExact(userDto.getId()));
+        timeSheetDto.setModifiedId(Math.toIntExact(userDto.getId()));
         service.update(id, timeSheetDto);
-        return new RedirectView("/home/time-sheets/");
+        return new RedirectView("/home-admin/time-sheets/");
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public RedirectView deleteMentor(@PathVariable Long id) {
         service.delete(id);
-        return new RedirectView("/home/time-sheets/");
+        return new RedirectView("/home-admin/time-sheets/");
     }
 }

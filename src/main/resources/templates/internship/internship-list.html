@@ -12,7 +12,7 @@
 <div class="container my-2" style="text-align: -webkit-center">
     <div class="row" style="display: flex; justify-content: space-between; flex-wrap: nowrap">
         <div class="col-1 mt-4">
-            <a th:href="@{/home}" style="text-decoration: none">HOME</a>
+            <a th:href="@{/home-admin}" style="text-decoration: none">HOME</a>
         </div>
         <div class="col-2 mt-3">
             <form th:action="@{/logout}" method="post">
@@ -24,9 +24,10 @@
 
     <h3>Internship List</h3>
     <div class="d-flex">
-        <div class="p-2"><a th:href="@{/home/internships/save-form}" class="btn btn-primary btn-sm mb-3">Add Internship</a></div>
+        <div class="p-2"><a th:href="@{/home-admin/internships/save-form}" class="btn btn-primary btn-sm mb-3">Add
+            Internship</a></div>
         <div class="input-group d-flex justify-content-end">
-            <form th:action="@{/home/internships/}" th:object="${searchForm}" method="get" class="d-inline-flex">
+            <form th:action="@{/home-admin/internships/}" th:object="${searchForm}" method="get" class="d-inline-flex">
                 <div class="form-outline">
                     <input type="search" id="form1" class="form-control" placeholder="Username..."
                            th:field="*{keyword}"/>
@@ -41,37 +42,70 @@
         <thead>
         <tr>
             <th>
-                ID
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">ID</a>-->
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'id'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">ID</a>
             </th>
             <th>
-                Username
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Username</a>-->
+
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'username'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Username</a>
             </th>
             <th>
-                Email
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Email</a>-->
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'email'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Email</a>
             </th>
             <th>
-                Full Name
-                <!--                <a th:href="@{/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"-->
-                <!--                   style="text-decoration: none; color: black">Birthday</a>-->
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'fullName'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Full Name</a>
             </th>
-            <th>Phone Number</th>
-            <th>Create ID</th>
-            <th>Create at</th>
-            <th>Modified ID</th>
-            <th>Modified at</th>
-            <th>Birthday</th>
-            <th>Identify Card</th>
-            <th>Status</th>
-            <th>Level</th>
-            <th>Position Id</th>
-            <th>University Id</th>
-            <th>Company Card Id</th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'phoneNumber'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Phone Number</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'createId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'createAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Create at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'modifiedId'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified ID</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'modifiedAt'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Modified at</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'birthday'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Birthday</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'identifyCard'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Identify Card</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'status'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Status</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'level'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Level</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'position'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Position</a>
+            </th>
+            <th>
+                <a th:href="@{/home-admin/internships/(size=${size}, page=${page}, field=${'university'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">University</a>
+            </th>
+            <th>
+                <a th:href="@{//(size=${size}, page=${page}, field=${'companyCard'}, sort=${sortDirection})}"
+                   style="text-decoration: none; color: black">Company card</a>
+            </th>
             <th>Action</th>
         </tr>
         </thead>
@@ -80,23 +114,23 @@
             <td th:text="${internship.id}"></td>
             <td th:text="${internship.username}"></td>
             <td th:text="${internship.email}"></td>
-            <td th:text="${internship.full_name}"></td>
-            <td th:text="${internship.phone_number}"></td>
-            <td th:text="${internship.create_id}"></td>
-            <td th:text="${internship.create_at}"></td>
-            <td th:text="${internship.modified_id}"></td>
-            <td th:text="${internship.modified_at}"></td>
+            <td th:text="${internship.fullName}"></td>
+            <td th:text="${internship.phoneNumber}"></td>
+            <td th:text="${internship.createId}"></td>
+            <td th:text="${internship.createAt}"></td>
+            <td th:text="${internship.modifiedId}"></td>
+            <td th:text="${internship.modifiedAt}"></td>
             <td th:text="${internship.birthday}"></td>
-            <td th:text="${internship.identify_card}"></td>
+            <td th:text="${internship.identifyCard}"></td>
             <td th:text="${internship.status}"></td>
             <td th:text="${internship.level}"></td>
-            <td th:text="${internship.position.id}"></td>
-            <td th:text="${internship.university.id}"></td>
+            <td th:text="${internship.position.name}"></td>
+            <td th:text="${internship.university.name}"></td>
             <td th:text="${internship.companyCard.id}"></td>
             <td>
-                <a th:href="@{/home/internships/update-form/{id}(id=${internship.id})}"
+                <a th:href="@{/home-admin/internships/update-form/{id}(id=${internship.id})}"
                    class="btn btn-primary">Update</a>
-                <a th:href="@{/home/internships/{id}(id=${internship.id})}"
+                <a th:href="@{/home-admin/internships/{id}(id=${internship.id})}"
                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
@@ -107,7 +141,7 @@
         <ul class="pagination justify-content-center pagination-sm">
             <li th:if="${internshipList.getTotalPages() > 0}" class="page-link"
                 th:each="pageNumber : ${pageNumbers}">
-                <a th:href="@{/(size=${internshipList.size}, page=${pageNumber} - 1)}"
+                <a th:href="@{/home-admin/internships/(size=${internshipList.size}, page=${pageNumber} - 1)}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==internshipList.number + 1} ? active"
                    class="page-link"></a>
